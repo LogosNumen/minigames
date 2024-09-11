@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Minigames</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .minigame {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+    <h1>Endless Minigames</h1>
+    <p>Complete the minigame to move to the next one!</p>
+
+    <!-- Minigame 1: Click the Button 10 times -->
+    <div id="minigame1" class="minigame visible">
+        <h2>Minigame 1: Click the Button 10 Times</h2>
+        <button onclick="incrementClicks()">Click Me!</button>
+        <p>Clicks: <span id="clickCount">0</span>/10</p>
+    </div>
+
+    <!-- Minigame 2: Number Guessing Game -->
+    <div id="minigame2" class="minigame">
+        <h2>Minigame 2: Guess the Number</h2>
+        <p>Guess a number between 1 and 10</p>
+        <input type="number" id="guessInput" min="1" max="10">
+        <button onclick="checkGuess()">Submit</button>
+        <p id="guessResult"></p>
+    </div>
+
+    <!-- Minigame 3: Simple Math Quiz -->
+    <div id="minigame3" class="minigame">
+        <h2>Minigame 3: Solve the Math Problem</h2>
+        <p>What is 8 + 7?</p>
+        <input type="number" id="mathAnswer">
+        <button onclick="checkMath()">Submit</button>
+        <p id="mathResult"></p>
+    </div>
+
+    <!-- Minigame 4: Find the Hidden Button -->
+    <div id="minigame4" class="minigame">
+        <h2>Minigame 4: Find the Hidden Button!</h2>
+        <button class="hidden" onclick="nextMinigame()" id="hiddenButton">You found me!</button>
+        <button onclick="showHiddenButton()">Search Here</button>
+    </div>
+
+    <!-- Minigame 5: Color Change Game -->
+    <div id="minigame5" class="minigame">
+        <h2>Minigame 5: Click the Red Button</h2>
+        <button onclick="colorCheck(this)" style="background-color: red;">Red</button>
+        <button onclick="colorCheck(this)" style="background-color: blue;">Blue</button>
+        <button onclick="colorCheck(this)" style="background-color: green;">Green</button>
+        <p id="colorResult"></p>
+    </div>
+
+    <!-- Minigame 6: Quick Typing Test -->
+    <div id="minigame6" class="minigame">
+        <h2>Minigame 6: Type "Dungeon" Quickly!</h2>
+        <input type="text" id="typingInput">
+        <button onclick="checkTyping()">Submit</button>
+        <p id="typingResult"></p>
+    </div>
+
+    <!-- Minigame 7: Memory Game -->
+    <div id="minigame7" class="minigame">
+        <h2>Minigame 7: Memorize the Number</h2>
+        <p id="memoryNumber">Remember this: 1342</p>
+        <button onclick="hideMemory()">Got it!</button>
+        <input type="number" id="memoryAnswer">
+        <button onclick="checkMemory()">Submit</button>
+        <p id="memoryResult"></p>
+    </div>
+
+    <!-- Minigame 8: Reaction Test -->
+    <div id="minigame8" class="minigame">
+        <h2>Minigame 8: Click When You See "GO!"</h2>
+        <p id="reactionText">Wait for it...</p>
+        <button id="reactionButton" disabled onclick="reactionEnd()">Click Me!</button>
+        <button onclick="startReactionTest()">Start Test</button>
+        <p id="reactionResult"></p>
+    </div>
+
+    <!-- Minigame 9: Drag the Box to the Goal -->
+    <div id="minigame9" class="minigame">
+        <h2>Minigame 9: Drag the Box to the Goal</h2>
+        <div style="width: 300px; height: 300px; border: 1px solid black; position: relative;">
+            <div id="draggableBox" style="width: 50px; height: 50px; background-color: red; position: absolute; top: 0; left: 0;" draggable="true"></div>
+        </div>
+        <button onclick="checkDrag()">Check Position</button>
+        <p id="dragResult"></p>
+    </div>
+
+    <!-- More Minigames -->
+    <!-- Minigames 10-20 would follow the same pattern with different logic for each one -->
+
+    <script>
+        // Variables
+        let clicks = 0;
+        let targetNumber = Math.floor(Math.random() * 10) + 1;
+        let memoryValue = 1342;
+
+        // Minigame 1: Click Counter
+        function incrementClicks() {
+            clicks++;
+            document.getElementById('clickCount').innerText = clicks;
+            if (clicks >= 10) {
+                nextMinigame();
+            }
+        }
+
+        // Minigame 2: Guessing Game
+        function checkGuess() {
+            let guess = parseInt(document.getElementById('guessInput').value);
+            if (guess === targetNumber) {
+                document.getElementById('guessResult').innerText = "Correct!";
+                nextMinigame();
+            } else {
+                document.getElementById('guessResult').innerText = "Try again!";
+            }
+        }
+
+        // Minigame 3: Math Quiz
+        function checkMath() {
+            let answer = parseInt(document.getElementById('mathAnswer').value);
+            if (answer === 15) {
+                document.getElementById('mathResult').innerText = "Correct!";
+                nextMinigame();
+            } else {
+                document.getElementById('mathResult').innerText = "Wrong! Try again.";
+            }
+        }
+
+        // Minigame 4: Hidden Button
+        function showHiddenButton() {
+            document.getElementById('hiddenButton').classList.remove('hidden');
+        }
+
+        // Minigame 5: Color Check
+        function colorCheck(button) {
+            if (button.style.backgroundColor === "red") {
+                document.getElementById('colorResult').innerText = "Correct!";
+                nextMinigame();
+            } else {
+                document.getElementById('colorResult').innerText = "Try again!";
+            }
+        }
+
+        // Minigame 6: Typing Test
+        function checkTyping() {
+            let input = document.getElementById('typingInput').value;
+            if (input.toLowerCase() === "dungeon") {
+                document.getElementById('typingResult').innerText = "Well done!";
+                nextMinigame();
+            } else {
+                document.getElementById('typingResult').innerText = "Try again!";
+            }
+        }
+
+        // Minigame 7: Memory Game
+        function hideMemory() {
+            document.getElementById('memoryNumber').style.display = 'none';
+        }
+
+        function checkMemory() {
+            let answer = parseInt(document.getElementById('memoryAnswer').value);
+            if (answer === memoryValue) {
+                document.getElementById('memoryResult').innerText = "Correct!";
+                nextMinigame();
+            } else {
+                document.getElementById('memoryResult').innerText = "Wrong!";
+            }
+        }
+
+        // Minigame 8: Reaction Test
+        let reactionStart;
+
+        function startReactionTest() {
+            document.getElementById('reactionButton').disabled = true;
+            document.getElementById('reactionText').innerText = "Wait for it...";
+            let delay = Math.random() * 3000 + 1000;
+            setTimeout(() => {
+                document.getElementById('reactionText').innerText = "GO!";
+                document.getElementById('reactionButton').disabled = false;
+                reactionStart = new Date();
+            }, delay);
+        }
+
+        function reactionEnd() {
+            let reactionEnd = new Date();
+            let reactionTime = reactionEnd - reactionStart;
